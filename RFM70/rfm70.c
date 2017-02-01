@@ -372,7 +372,6 @@
 #define FIFO_STATUS_RX_EMPTY  0x01
 
 
-
 // Bank0 register initialization values
 #define BANK0_ENTRIES 10
 const unsigned char Bank0_Reg[ BANK0_ENTRIES ][ 2 ]={
