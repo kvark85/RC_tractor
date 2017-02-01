@@ -9,6 +9,7 @@ int32_t stopTimer = 0;
 bool isTransmit = false;
 uint8_t rfm70buf[32];
 uint8_t statusReg;
+uint8_t controlMode = 0;
 
 uint8_t a1, a2, a3;
 
@@ -63,7 +64,15 @@ int main()
         a1 = rfm70buf[0];
         a2 = rfm70buf[1];
         a3 = rfm70buf[2];
-        motorHeandler2(rfm70buf[0], rfm70buf[1]);
+
+        switch (controlMode) {  
+          case 0:  
+            motorHeandler1(rfm70buf[0], rfm70buf[1]);
+            break;  
+          case 1:  
+            motorHeandler2(rfm70buf[0], rfm70buf[1]);
+            break;   
+        }
         stopTimer = 0; // обнуляем счетчик остановки
       } else {
         stopTimer++;
@@ -72,7 +81,8 @@ int main()
           stopTimer = 0; // обнуляем счетчик остановки
           rfm70buf[0] = MIDDLEADC;
           rfm70buf[1] = MIDDLEADC;
-          motorHeandler2(rfm70buf[0], rfm70buf[1]);
+          setMotorLeftPwm(0);
+          setMotorRightPwm(0) ;
         }
       }
     }
