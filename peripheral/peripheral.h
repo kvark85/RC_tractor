@@ -15,7 +15,7 @@
 //*****************************  пины LED START  *****************************//
 #define LED_GPIO_PORT           (GPIOD)
 #define LED_GPIO_PINS           (GPIO_PIN_4)
-#define INVERT_LED()            GPIO_WriteReverse(LED_GPIO_PORT, (GPIO_Pin_TypeDef)LED_GPIO_PINS);
+#define INVERT_LED()            GPIO_WriteReverse(LED_GPIO_PORT, (GPIO_Pin_TypeDef)LED_GPIO_PINS)
 //******************************  пины LED END  ******************************//
 
 
@@ -25,10 +25,10 @@
 #define leftDirection           GPIO_PIN_5
 #define portL293D               GPIOD           // порт управления направлением двигателя
 
-#define motorLeftForward()      GPIO_WriteHigh(portL293D, (GPIO_Pin_TypeDef)leftDirection);
-#define motorLeftBack()         GPIO_WriteLow(portL293D, (GPIO_Pin_TypeDef)leftDirection);
-#define motorRightForward()     GPIO_WriteHigh(portL293D, (GPIO_Pin_TypeDef)rightDirection);
-#define motorRightBack()        GPIO_WriteLow(portL293D, (GPIO_Pin_TypeDef)rightDirection);
+#define motorLeftForward()      GPIO_WriteHigh(portL293D, (GPIO_Pin_TypeDef)leftDirection)
+#define motorLeftBack()         GPIO_WriteLow(portL293D, (GPIO_Pin_TypeDef)leftDirection)
+#define motorRightForward()     GPIO_WriteHigh(portL293D, (GPIO_Pin_TypeDef)rightDirection)
+#define motorRightBack()        GPIO_WriteLow(portL293D, (GPIO_Pin_TypeDef)rightDirection)
 
 #define setMotorLeftPwm( x )    TIM2_SetCompare2(maxPWM - (int32_t)x)
 #define setMotorRightPwm( x )   TIM2_SetCompare3(maxPWM - (int32_t)x)

@@ -4,7 +4,7 @@
 #include "rfm70.h"
 #include "rfm70-config.h"
 
-extern int32_t msVar; // мС счетчик
+extern int32_t msVar; // РјРЎ СЃС‡РµС‚С‡РёРє
 int32_t stopTimer = 0;
 bool isTransmit = false;
 uint8_t rfm70buf[32];
@@ -12,17 +12,17 @@ uint8_t statusReg;
 
 uint8_t a1, a2, a3;
 
-uint32_t clockFreq; // для определения тактовой частоты
+uint32_t clockFreq; // РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ С‚Р°РєС‚РѕРІРѕР№ С‡Р°СЃС‚РѕС‚С‹
 
 int main()
 {
   //CLK_SYSCLKConfig(CLK_PRESCALER_HSIDIV2); // select Clock = 8 MHz
   CLK_SYSCLKConfig(CLK_PRESCALER_HSIDIV1); // select Clock = 16 MHz
   CLK_HSICmd(ENABLE);
-  //clockFreq = CLK_GetClockFreq(); // определение тактовой частоты
+  //clockFreq = CLK_GetClockFreq(); // РѕРїСЂРµРґРµР»РµРЅРёРµ С‚Р°РєС‚РѕРІРѕР№ С‡Р°СЃС‚РѕС‚С‹
   
   asm("rim"); 
-  TIM4_Config(); // на этом таймере таймер в мС
+  TIM4_Config(); // РЅР° СЌС‚РѕРј С‚Р°Р№РјРµСЂРµ С‚Р°Р№РјРµСЂ РІ РјРЎ
   waitMs(10);
   SPI_Init_RFM70();
   rfm70_init();
@@ -64,12 +64,12 @@ int main()
         a2 = rfm70buf[1];
         a3 = rfm70buf[2];
         motorHeandler2(rfm70buf[0], rfm70buf[1]);
-        stopTimer = 0; // обнуляем счетчик остановки
+        stopTimer = 0; // РѕР±РЅСѓР»СЏРµРј СЃС‡РµС‚С‡РёРє РѕСЃС‚Р°РЅРѕРІРєРё
       } else {
         stopTimer++;
         waitMs(1);
         if (stopTimer > 1000) {
-          stopTimer = 0; // обнуляем счетчик остановки
+          stopTimer = 0; // РѕР±РЅСѓР»СЏРµРј СЃС‡РµС‚С‡РёРє РѕСЃС‚Р°РЅРѕРІРєРё
           rfm70buf[0] = MIDDLEADC;
           rfm70buf[1] = MIDDLEADC;
           motorHeandler2(rfm70buf[0], rfm70buf[1]);
