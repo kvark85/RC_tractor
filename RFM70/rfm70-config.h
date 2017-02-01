@@ -20,25 +20,9 @@
 
 #include "peripheral.h"
 
-/*
-#define RFM70_SCK( x )   PIN_COPY( PORTC, 0, (x) ) 
-#define RFM70_MOSI( x )  PIN_COPY( PORTC, 1, (x) )
-#define RFM70_MISO       ( RC2 )
-*/
 #define RFM70_CSN( x )   if(x) {GPIO_WriteHigh(port_NSS, pin_NSS);} else {GPIO_WriteLow(port_NSS, pin_NSS);}
 #define RFM70_CE( x )    if(x) {GPIO_WriteHigh(port_SPI_IRQ_CE, pin_CE);} else {GPIO_WriteLow(port_SPI_IRQ_CE, pin_CE);}
 
-/*
-#define RFM70_PIN_DIRECTION { \
-   TRISC0 = 0; \
-   TRISC1 = 0; \
-   TRISC2 = 1; \
-   TRISC3 = 0; \
-   TRISC4 = 0; \
-}
-*/
-
-//#define RFM70_WAIT_US( x ) WAIT_US( x )
 #define RFM70_WAIT_MS( x ) waitMs( x )
 
 #include "rfm70.h"

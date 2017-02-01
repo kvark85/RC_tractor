@@ -371,7 +371,7 @@
 #define FIFO_STATUS_RX_FULL   0x02
 #define FIFO_STATUS_RX_EMPTY  0x01
 
-uint8_t array5[5];
+
 
 // Bank0 register initialization values
 #define BANK0_ENTRIES 10
@@ -400,58 +400,46 @@ unsigned char rfm70_SPI_RW( unsigned char value ){
 }
 
 void rfm70_register_write( unsigned char reg, unsigned char value ){
-  if( reg < RFM70_CMD_WRITE_REG ){
+   if( reg < RFM70_CMD_WRITE_REG ){
       reg |= RFM70_CMD_WRITE_REG;      
    }  
    RFM70_CSN( 0 );                // CSN low, init SPI transaction
-   //zzz1
-   //for(char i = 0; i < 200; i++){};
    (void)rfm70_SPI_RW( reg );    // select register
    (void)rfm70_SPI_RW( value );  // ..and write value to it..
-   //zzz11
-   //for(char i = 0; i < 200; i++){};
    while (SPI_GetFlagStatus(SPI_FLAG_TXE) == RESET);
    while (SPI_GetFlagStatus(SPI_FLAG_BSY) == SET);
    RFM70_CSN( 1 );                // CSN high again
 }
 
 unsigned char rfm70_register_read( unsigned char reg ){
-  unsigned char value;
+   unsigned char value;
    if( reg < RFM70_CMD_WRITE_REG ){
       reg |= RFM70_CMD_READ_REG;       
    }  
    RFM70_CSN( 0 );               // CSN low, initialize SPI communication...
-   //zzz2
-   //for(char i = 0; i < 200; i++){};
    (void)rfm70_SPI_RW( reg );   // Select register to read from..
    value = rfm70_SPI_RW( 0 );   // ..then read register value
-   //zzz22
-   //for(char i = 0; i < 200; i++){};
    while (SPI_GetFlagStatus(SPI_FLAG_TXE) == RESET);
    while (SPI_GetFlagStatus(SPI_FLAG_BSY) == SET);
    RFM70_CSN( 1 );               // CSN high, terminate SPI communication
-   return value;                 // return register value*/
- }
+   return value;                 // return register value
+}
 
 void rfm70_buffer_read( 
    unsigned char reg, 
    unsigned char *pBuf, 
    unsigned char length 
 ){
-  unsigned char i;
+   unsigned char i;
    if( reg < RFM70_CMD_WRITE_REG ){
       reg |= RFM70_CMD_READ_REG;       
    }  
    RFM70_CSN( 0 );                   // Set CSN 0
-   //zzz3
-   //for(char i = 0; i < 200; i++){};
    (void)rfm70_SPI_RW( reg );       // Select register to write
    for( i = 0; i < length; i++ ){    // read all bytes
       *pBuf++ = rfm70_SPI_RW( 0 );  // read one byte from RFM70
    }
-   for(char i = 0; i < 200; i++){};
-   //zzz33
-   //while (SPI_GetFlagStatus(SPI_FLAG_TXE) == RESET);
+   while (SPI_GetFlagStatus(SPI_FLAG_TXE) == RESET);
    while (SPI_GetFlagStatus(SPI_FLAG_BSY) == SET);
    RFM70_CSN( 1 );                   // Set CSN high again
 }
@@ -466,14 +454,10 @@ void rfm70_buffer_write(
       reg |= RFM70_CMD_WRITE_REG;      
    }  
    RFM70_CSN( 0 );                     // Set CSN low, init SPI tranaction
-   //zzz4
-   //for(char i = 0; i < 200; i++){};
    (void)rfm70_SPI_RW( reg );         // Select register to write tio write
    for( i = 0; i < length; i++ ){      // write all bytes in buffer(*pBuf)
       (void)rfm70_SPI_RW( *pBuf++ );  // write one byte
    }
-   //zzz44
-   //for(char i = 0; i < 200; i++){};
    while (SPI_GetFlagStatus(SPI_FLAG_TXE) == RESET);
    while (SPI_GetFlagStatus(SPI_FLAG_BSY) == SET);
    RFM70_CSN( 1 );                     // Set CSN high again
@@ -813,14 +797,7 @@ unsigned char rfm70_receive(
     
 void rfm70_init( void ){
    unsigned char i;
-   /*
-   RFM70_PIN_DIRECTION;
 
-   RFM70_CE( 0 );
-   RFM70_CSN( 1 );
-   RFM70_SCK( 0 );
-   RFM70_MOSI( 0 );
-   */
    // delay at least 50ms.
    // the example code says so, but why??
    RFM70_WAIT_MS( 50 );
