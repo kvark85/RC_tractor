@@ -4,7 +4,7 @@
 #include "rfm70.h"
 #include "rfm70-config.h"
 
-extern int32_t msVar; // мС счетчик
+extern int32_t msVar; // ms counter
 int32_t stopTimer = 0;
 bool isTransmit = false;
 uint8_t rfm70buf[32];
@@ -13,17 +13,31 @@ uint8_t controlMode = 1;
 
 uint8_t a1, a2, a3;
 
-uint32_t clockFreq; // для определения тактовой частоты
+uint32_t clockFreq; // for determinating clock frequency
 
 int main()
 {
   //CLK_SYSCLKConfig(CLK_PRESCALER_HSIDIV2); // select Clock = 8 MHz
   CLK_SYSCLKConfig(CLK_PRESCALER_HSIDIV1); // select Clock = 16 MHz
   CLK_HSICmd(ENABLE);
-  //clockFreq = CLK_GetClockFreq(); // определение тактовой частоты
+  //clockFreq = CLK_GetClockFreq(); // getting clock frequency
+
+  if(!isTransmit) {
+    L293D_GpioInit();
+  }
   
   asm("rim"); 
-  TIM4_Config(); // на этом таймере таймер в мС
+  TIM4_Config(); // this timer for ms delay
+
+  for(char i = 0; i < 10; i++) {
+    motorLeftForward();
+    motorRightBack();
+    waitMs(100);
+    motorLeftBack();
+    motorRightForward();
+    waitMs(100);
+  }
+  
   waitMs(10);
   SPI_Init_RFM70();
   rfm70_init();
@@ -37,7 +51,6 @@ int main()
   } else {
     rfm70_mode_receive();
     TIM2_PWM_Init();
-    L293D_GpioInit();
   }
   
   while(1) {

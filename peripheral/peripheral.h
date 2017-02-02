@@ -1,8 +1,8 @@
 /*
                         ИНИЦИАЛИЗАЦИЯ ПЕРИФЕРИИ
-                               STM8F103				
+                               STM8F103
                               12.07.2013
-									*/
+                                    */
 
 #ifndef _peripheral_
 #define _peripheral_
@@ -12,18 +12,26 @@
 #define TIM4_PERIOD             124
 #define MIDDLEADC               127
 
-//*****************************  пины LED START  *****************************//
-#define LED_GPIO_PORT           (GPIOD)
-#define LED_GPIO_PINS           (GPIO_PIN_4)
+//***************************************************************************//
+//---------------------------     BUTTON START     --------------------------//
+//***************************************************************************//
+#define BUTTON_GPIO_PORT        GPIOD
+#define BUTTON_GPIO_PINS        GPIO_PIN_1
+
+//***************************************************************************//
+//-----------------------------     LED START     ---------------------------//
+//***************************************************************************//
+#define LED_GPIO_PORT           GPIOD
+#define LED_GPIO_PINS           GPIO_PIN_4
 #define INVERT_LED()            GPIO_WriteReverse(LED_GPIO_PORT, (GPIO_Pin_TypeDef)LED_GPIO_PINS)
-//******************************  пины LED END  ******************************//
 
-
-//************************  defines from motor START  ************************//
-#define maxPWM                  533
-#define rightDirection          GPIO_PIN_4      // пины управления направлением двигателя
-#define leftDirection           GPIO_PIN_5
-#define portL293D               GPIOD           // порт управления направлением двигателя
+//***************************************************************************//
+//---------------------     defines for motor START     ---------------------//
+//***************************************************************************//
+#define MAX_PWM                 533
+#define RIGHT_DIRECTION         GPIO_PIN_4
+#define LEFT_DIRECTION          GPIO_PIN_5
+#define DIRECTION_PORT          GPIOD
 
 #define motorLeftForward()      GPIO_WriteHigh(portL293D, (GPIO_Pin_TypeDef)leftDirection)
 #define motorLeftBack()         GPIO_WriteLow(portL293D, (GPIO_Pin_TypeDef)leftDirection)
@@ -32,20 +40,22 @@
 
 #define setMotorLeftPwm( x )    TIM2_SetCompare2(maxPWM - (int32_t)x)
 #define setMotorRightPwm( x )   TIM2_SetCompare3(maxPWM - (int32_t)x)
-//*************************  defines from motor END  *************************//
 
+//***************************************************************************//
+//---------------------     defines for RFM70 START     ---------------------//
+//***************************************************************************//
+#define PIN_NSS                 GPIO_PIN_3      // from RFM70 side - connected to CSN
+#define PORT_NSS                GPIOA           // NSS port
+#define PIN_CE                  GPIO_PIN_3
+#define PIN_IRQ                 GPIO_PIN_4
+#define PIN_SCK                 GPIO_PIN_5
+#define PIN_MOSI                GPIO_PIN_6
+#define PIN_MISO                GPIO_PIN_7
+#define PORT_SPI_IRQ_CE         GPIOC           // SPI port
 
-//***************  пины STM8 которые подключены к RFM70 START  ***************//
-#define pin_NSS                 GPIO_PIN_3      // со стороны RFM70 подключено к CSN
-#define port_NSS                GPIOA           // порт NSS
-#define pin_CE                  GPIO_PIN_3
-#define pin_IRQ                 GPIO_PIN_4
-#define pin_SCK                 GPIO_PIN_5
-#define pin_MOSI                GPIO_PIN_6
-#define pin_MISO                GPIO_PIN_7
-#define port_SPI_IRQ_CE         GPIOC           // SPI порт
-//****************  пины STM8 которые подключены к RFM70 END  ****************//
-
+//***************************************************************************//
+//-------------------------     function defines     ------------------------//
+//***************************************************************************//
 void LED_Init(void);
 void ADC_Init(void);
 uint16_t getADC3(void);

@@ -2,30 +2,21 @@
                         ИНИЦИАЛИЗАЦИЯ ПЕРИФЕРИИ
                                STM8F103				
                               12.07.2013
-									*/
+                                    */
 
 #include "peripheral.h"
 
 uint32_t msVar = 0;
 
-float a = 1020;
-float b = 130050;
-
-//float centerSpeed, direction;
-//float motorLeftSpeed, motorRightSpeed;
-
-int32_t centerSpeed, direction;
-int32_t motorLeftSpeed, motorRightSpeed;
-
 //******************************************************************************
-//------------------     инициализация одного светодиодика     -----------------
+//-------------------------     led initialization     -------------------------
 //******************************************************************************
 void LED_Init(void) {
     GPIO_Init(LED_GPIO_PORT, (GPIO_Pin_TypeDef)LED_GPIO_PINS, GPIO_MODE_OUT_PP_LOW_FAST);
 }
 
 //******************************************************************************
-//-------------------------     инициализация ADC     -------------------------
+//-------------------------     ADC initialization     -------------------------
 //******************************************************************************
 void ADC_Init(void){
   GPIO_Init(GPIOD, GPIO_PIN_2, GPIO_MODE_IN_FL_NO_IT);
@@ -33,14 +24,14 @@ void ADC_Init(void){
   
   ADC1_DeInit();
   ADC1_Init(ADC1_CONVERSIONMODE_CONTINUOUS, ADC1_CHANNEL_4, ADC1_PRESSEL_FCPU_D2, \
-            ADC1_EXTTRIG_TIM, DISABLE, ADC1_ALIGN_RIGHT, ADC1_SCHMITTTRIG_CHANNEL4,\
+            ADC1_EXTTRIG_TIM, DISABLE, ADC1_ALIGN_RIGHT, ADC1_SCHMITTTRIG_CHANNEL4, \
             DISABLE);
   ADC1_ScanModeCmd(ENABLE); 
   ADC1_StartConversion();
 }
 
 //******************************************************************************
-//-------------------------     взять значения ADC3     ------------------------
+//---------------------------     get ADC3 value     ---------------------------
 //******************************************************************************
 uint16_t getADC3(void) {
     uint16_t temph_ADC = 0;
@@ -60,7 +51,7 @@ uint16_t getADC3(void) {
 }
 
 //******************************************************************************
-//-------------------------     взять значения ADC4     ------------------------
+//---------------------------     get ADC4 value     ---------------------------
 //******************************************************************************
 uint16_t getADC4(void) {
     uint16_t temph_ADC = 0;
@@ -105,7 +96,7 @@ void TIM4_Config(void)
 }
 
 //******************************************************************************
-//-------------------------     Задержка в мС     -------------------------
+//------------------------------     ms delay     ------------------------------
 //******************************************************************************
 void waitMs(uint32_t val) {
   msVar = val;
@@ -113,7 +104,7 @@ void waitMs(uint32_t val) {
 }
 
 //******************************************************************************
-//--------------------------     инициализация SPI и  RFM70    -------------------------
+//---------------------     SPI and RFM70 initialization    --------------------
 //******************************************************************************
 void SPI_Init_RFM70(void) {
     GPIO_Init (port_NSS,        pin_NSS,  GPIO_MODE_OUT_PP_HIGH_FAST);          // конфигурируем CS (SS)
@@ -135,7 +126,7 @@ void SPI_Init_RFM70(void) {
 }
 
 //******************************************************************************
-//-------------------     инициализация ШИМ на таймере 2     -------------------
+//--------------------     PWM initialization (on TIM2)     --------------------
 //******************************************************************************
 void TIM2_PWM_Init(void){
     TIM2_DeInit();
@@ -158,7 +149,7 @@ void TIM2_PWM_Init(void){
 }
 
 //******************************************************************************
-// -- инициализация портов которые управшают направлением двигателей на L293D --
+//------------------------     L293D initialization     ------------------------
 //******************************************************************************
 void L293D_GpioInit(void) {
   GPIO_Init(portL293D, (GPIO_Pin_TypeDef)rightDirection, GPIO_MODE_OUT_PP_LOW_FAST);
@@ -166,7 +157,7 @@ void L293D_GpioInit(void) {
 }
 
 //******************************************************************************
-// -------------------------- управление двигателями1 --------------------------
+// --------------------------     motor control 1     --------------------------
 //******************************************************************************
 void motorHeandler1(uint8_t motor1, uint8_t motor2) {
   if (motor1 > MIDDLEADC) {
@@ -190,25 +181,23 @@ void motorHeandler1(uint8_t motor1, uint8_t motor2) {
 }
 
 //******************************************************************************
-// -------------------------- управление двигателями2 --------------------------
+// --------------------------     motor control 2     --------------------------
 //******************************************************************************
 void motorHeandler2(uint8_t adcSpeed, uint8_t adcDirection) {
   //float centerSpeed, direction;
   //float motorLeftSpeed, motorRightSpeed;
-	
-  //centerSpeed = ((a * (float)adcSpeed) - b)/ 255;
-  //direction = ((a * (float)adcDirection) - b)/ 255;
+
+  //centerSpeed = ((1020 * (float)adcSpeed) - 130050)/ 255;
+  //direction = ((1020 * (float)adcDirection) - 130050)/ 255;
   
+  int32_t centerSpeed, direction;
+  int32_t motorLeftSpeed, motorRightSpeed;
+
   centerSpeed = (adcSpeed * 4) - 510;
   direction = (adcDirection * 4) - 510;
 
-  //if(centerSpeed > 0 ) {
-    motorLeftSpeed = centerSpeed + direction;
-    motorRightSpeed = centerSpeed - direction;
-  //} else {
-  //  motorLeftSpeed = centerSpeed - direction;
-  //  motorRightSpeed = centerSpeed + direction;
-  //}
+  motorLeftSpeed = centerSpeed + direction;
+  motorRightSpeed = centerSpeed - direction;
 
   if(motorLeftSpeed > 0) {
     motorLeftForward();
