@@ -9,7 +9,7 @@ int32_t stopTimer = 0;
 bool isTransmit = false;
 uint8_t rfm70buf[32];
 uint8_t statusReg;
-uint8_t controlMode = 0;
+uint8_t controlMode = 1;
 
 uint8_t a1, a2, a3;
 

@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-2140640355
+Checksum=-1728582829
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -78,12 +78,12 @@ LoggingEnabled=_ 0
 LogFile=_ ""
 [Breakpoints]
 Bp0=_ "STD_CODE" "{$PROJ_DIR$\STM8S_StdPeriph_Driver\inc\stm8s_tim4.h}.104.1" 0 0 0 0 "" 0 ""
-Bp1=_ "STD_CODE" "{$PROJ_DIR$\peripheral\peripheral.c}.215.5" 0 0 0 0 "" 0 ""
-Bp2=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.85.1" 0 0 0 0 "" 0 ""
-Bp3=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.83.42" 1 0 0 0 "" 0 ""
-Bp4=_ "STD_CODE" "{$PROJ_DIR$\peripheral\peripheral.c}.196.3" 1 0 0 0 "" 0 ""
+Bp1=_ "STD_CODE" "{$PROJ_DIR$\peripheral\peripheral.c}.221.5" 0 0 0 0 "" 0 ""
+Bp2=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.85.11" 0 0 0 0 "" 0 ""
+Bp3=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.83.11" 1 0 0 0 "" 0 ""
+Bp4=_ "STD_CODE" "{$PROJ_DIR$\peripheral\peripheral.c}.202.3" 1 0 0 0 "" 0 ""
 Bp5=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.66.9" 1 0 0 0 "" 0 ""
-Bp6=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.75.11" 1 0 0 0 "" 0 ""
+Bp6=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.76.9" 1 0 0 0 "" 0 ""
 Count=7
 [Aliases]
 Count=0

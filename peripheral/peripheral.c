@@ -6,13 +6,16 @@
 
 #include "peripheral.h"
 
-int32_t msVar = 0;
+uint32_t msVar = 0;
 
 float a = 1020;
 float b = 130050;
 
-float centerSpeed, direction;
-float motorLeftSpeed, motorRightSpeed;
+//float centerSpeed, direction;
+//float motorLeftSpeed, motorRightSpeed;
+
+int32_t centerSpeed, direction;
+int32_t motorLeftSpeed, motorRightSpeed;
 
 //******************************************************************************
 //------------------     инициализация одного светодиодика     -----------------
@@ -193,8 +196,11 @@ void motorHeandler2(uint8_t adcSpeed, uint8_t adcDirection) {
   //float centerSpeed, direction;
   //float motorLeftSpeed, motorRightSpeed;
 	
-  centerSpeed = ((a * (float)adcSpeed) - b)/ 255;
-  direction = ((a * (float)adcDirection) - b)/ 255;
+  //centerSpeed = ((a * (float)adcSpeed) - b)/ 255;
+  //direction = ((a * (float)adcDirection) - b)/ 255;
+  
+  centerSpeed = (adcSpeed * 4) - 510;
+  direction = (adcDirection * 4) - 510;
 
   //if(centerSpeed > 0 ) {
     motorLeftSpeed = centerSpeed + direction;
