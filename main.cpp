@@ -29,15 +29,6 @@ int main()
   asm("rim"); 
   TIM4_Config(); // this timer for ms delay
 
-  for(char i = 0; i < 10; i++) {
-    motorLeftForward();
-    motorRightBack();
-    waitMs(100);
-    motorLeftBack();
-    motorRightForward();
-    waitMs(100);
-  }
-  
   waitMs(10);
   SPI_Init_RFM70();
   rfm70_init();
@@ -53,8 +44,8 @@ int main()
     TIM2_PWM_Init();
   }
   
-  while(1) {
-    if(isTransmit) {
+  if(isTransmit) {
+    while(1) {
       INVERT_LED();
       rfm70buf[0] = getADC3()/4; // speed;
       rfm70buf[1] = getADC4()/4; // direction;
@@ -69,9 +60,11 @@ int main()
         } 
       }   
       waitMs(5);
-    } else {
+    }
+  } else {
+    while(1) {
       //rfm70_receive( &pipe, rfm70buf, &length );
-      if(!GPIO_ReadInputPin(port_SPI_IRQ_CE, pin_IRQ)) {
+      if(!GPIO_ReadInputPin(PORT_SPI_IRQ_CE, PIN_IRQ)) {
         rfm70_buffer_read( RFM70_CMD_R_RX_PAYLOAD, rfm70buf, 3 );
         rfm70_register_write( RFM70_REG_STATUS ,  0x42);
         a1 = rfm70buf[0];

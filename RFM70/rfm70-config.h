@@ -21,15 +21,15 @@
 #include "peripheral.h"
 
 #define RFM70_CSN( x )   if(x) { \
-                           GPIO_WriteHigh(port_NSS, pin_NSS); \
+                           GPIO_WriteHigh(PORT_NSS, PIN_NSS); \
                          } else { \
-                           GPIO_WriteLow(port_NSS, pin_NSS); \
+                           GPIO_WriteLow(PORT_NSS, PIN_NSS); \
                          }
 
 #define RFM70_CE( x )    if(x) { \
-                           GPIO_WriteHigh(port_SPI_IRQ_CE, pin_CE); \
+                           GPIO_WriteHigh(PORT_SPI_IRQ_CE, PIN_CE); \
                          } else { \
-                           GPIO_WriteLow(port_SPI_IRQ_CE, pin_CE); \
+                           GPIO_WriteLow(PORT_SPI_IRQ_CE, PIN_CE); \
                          }
 
 #define RFM70_WAIT_MS( x ) waitMs( x )

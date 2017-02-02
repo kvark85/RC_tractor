@@ -33,13 +33,13 @@
 #define LEFT_DIRECTION          GPIO_PIN_5
 #define DIRECTION_PORT          GPIOD
 
-#define motorLeftForward()      GPIO_WriteHigh(portL293D, (GPIO_Pin_TypeDef)leftDirection)
-#define motorLeftBack()         GPIO_WriteLow(portL293D, (GPIO_Pin_TypeDef)leftDirection)
-#define motorRightForward()     GPIO_WriteHigh(portL293D, (GPIO_Pin_TypeDef)rightDirection)
-#define motorRightBack()        GPIO_WriteLow(portL293D, (GPIO_Pin_TypeDef)rightDirection)
+#define motorLeftForward()      GPIO_WriteHigh(DIRECTION_PORT, (GPIO_Pin_TypeDef)LEFT_DIRECTION)
+#define motorLeftBack()         GPIO_WriteLow(DIRECTION_PORT, (GPIO_Pin_TypeDef)LEFT_DIRECTION)
+#define motorRightForward()     GPIO_WriteHigh(DIRECTION_PORT, (GPIO_Pin_TypeDef)RIGHT_DIRECTION)
+#define motorRightBack()        GPIO_WriteLow(DIRECTION_PORT, (GPIO_Pin_TypeDef)RIGHT_DIRECTION)
 
-#define setMotorLeftPwm( x )    TIM2_SetCompare2(maxPWM - (int32_t)x)
-#define setMotorRightPwm( x )   TIM2_SetCompare3(maxPWM - (int32_t)x)
+#define setMotorLeftPwm( x )    TIM2_SetCompare2(MAX_PWM - (int32_t)x)
+#define setMotorRightPwm( x )   TIM2_SetCompare3(MAX_PWM - (int32_t)x)
 
 //***************************************************************************//
 //---------------------     defines for RFM70 START     ---------------------//

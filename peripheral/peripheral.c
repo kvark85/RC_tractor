@@ -107,16 +107,16 @@ void waitMs(uint32_t val) {
 //---------------------     SPI and RFM70 initialization    --------------------
 //******************************************************************************
 void SPI_Init_RFM70(void) {
-    GPIO_Init (port_NSS,        pin_NSS,  GPIO_MODE_OUT_PP_HIGH_FAST);          // конфигурируем CS (SS)
-    GPIO_Init (port_SPI_IRQ_CE, pin_CE,   GPIO_MODE_OUT_PP_HIGH_FAST);          // конфигурируем CE
-    GPIO_Init (port_SPI_IRQ_CE, pin_SCK,  GPIO_MODE_OUT_PP_HIGH_FAST);          // конфигурируем CLK
-    GPIO_Init (port_SPI_IRQ_CE, pin_MOSI, GPIO_MODE_OUT_PP_HIGH_FAST);          // конфигурируем MOSI
-    GPIO_Init (port_SPI_IRQ_CE, pin_MISO, GPIO_MODE_IN_FL_NO_IT);               // конфигурируем MISO
-    GPIO_Init (port_SPI_IRQ_CE, pin_IRQ, GPIO_MODE_IN_FL_NO_IT);                // вывод прерывания радиомодуля
+    GPIO_Init (PORT_NSS,        PIN_NSS,  GPIO_MODE_OUT_PP_HIGH_FAST);          // конфигурируем CS (SS)
+    GPIO_Init (PORT_SPI_IRQ_CE, PIN_CE,   GPIO_MODE_OUT_PP_HIGH_FAST);          // конфигурируем CE
+    GPIO_Init (PORT_SPI_IRQ_CE, PIN_SCK,  GPIO_MODE_OUT_PP_HIGH_FAST);          // конфигурируем CLK
+    GPIO_Init (PORT_SPI_IRQ_CE, PIN_MOSI, GPIO_MODE_OUT_PP_HIGH_FAST);          // конфигурируем MOSI
+    GPIO_Init (PORT_SPI_IRQ_CE, PIN_MISO, GPIO_MODE_IN_FL_NO_IT);               // конфигурируем MISO
+    GPIO_Init (PORT_SPI_IRQ_CE, PIN_IRQ, GPIO_MODE_IN_FL_NO_IT);                // вывод прерывания радиомодуля
    
 
-    GPIO_WriteHigh(port_SPI_IRQ_CE, pin_CE);
-    GPIO_WriteHigh(port_SPI_IRQ_CE, pin_NSS);   
+    GPIO_WriteHigh(PORT_SPI_IRQ_CE, PIN_CE);
+    GPIO_WriteHigh(PORT_SPI_IRQ_CE, PIN_NSS);   
   
     SPI_DeInit();
     SPI_Init(SPI_FIRSTBIT_MSB, SPI_BAUDRATEPRESCALER_2, SPI_MODE_MASTER, 
@@ -131,14 +131,14 @@ void SPI_Init_RFM70(void) {
 void TIM2_PWM_Init(void){
     TIM2_DeInit();
     /* Time base configuration */
-    TIM2_TimeBaseInit(TIM2_PRESCALER_1, maxPWM);
+    TIM2_TimeBaseInit(TIM2_PRESCALER_1, MAX_PWM);
 
       /* PWM1 Mode configuration: Channel2 */ 
-    TIM2_OC2Init(TIM2_OCMODE_PWM1, TIM2_OUTPUTSTATE_ENABLE, maxPWM, TIM2_OCPOLARITY_HIGH);
+    TIM2_OC2Init(TIM2_OCMODE_PWM1, TIM2_OUTPUTSTATE_ENABLE, MAX_PWM, TIM2_OCPOLARITY_HIGH);
     TIM2_OC2PreloadConfig(ENABLE);
 
     /* PWM1 Mode configuration: Channel3 */  
-    TIM2_OC3Init(TIM2_OCMODE_PWM1, TIM2_OUTPUTSTATE_ENABLE, maxPWM, TIM2_OCPOLARITY_HIGH);
+    TIM2_OC3Init(TIM2_OCMODE_PWM1, TIM2_OUTPUTSTATE_ENABLE, MAX_PWM, TIM2_OCPOLARITY_HIGH);
     TIM2_OC3PreloadConfig(ENABLE);
     //TIM2_CCxCmd(TIM2_CHANNEL_3, ENABLE);
     
@@ -152,8 +152,8 @@ void TIM2_PWM_Init(void){
 //------------------------     L293D initialization     ------------------------
 //******************************************************************************
 void L293D_GpioInit(void) {
-  GPIO_Init(portL293D, (GPIO_Pin_TypeDef)rightDirection, GPIO_MODE_OUT_PP_LOW_FAST);
-  GPIO_Init(portL293D, (GPIO_Pin_TypeDef)leftDirection, GPIO_MODE_OUT_PP_LOW_FAST);
+  GPIO_Init(DIRECTION_PORT, (GPIO_Pin_TypeDef)RIGHT_DIRECTION, GPIO_MODE_OUT_PP_LOW_FAST);
+  GPIO_Init(DIRECTION_PORT, (GPIO_Pin_TypeDef)LEFT_DIRECTION, GPIO_MODE_OUT_PP_LOW_FAST);
 }
 
 //******************************************************************************
@@ -176,8 +176,8 @@ void motorHeandler1(uint8_t motor1, uint8_t motor2) {
     motorRightBack();
   }
 
-  TIM2_SetCompare2(maxPWM - ((motor1) * 4));
-  TIM2_SetCompare3(maxPWM - ((motor2) * 4));
+  TIM2_SetCompare2(MAX_PWM - ((motor1) * 4));
+  TIM2_SetCompare3(MAX_PWM - ((motor2) * 4));
 }
 
 //******************************************************************************
@@ -213,8 +213,10 @@ void motorHeandler2(uint8_t adcSpeed, uint8_t adcDirection) {
     motorRightSpeed *= -1;
   }
   
-  if (motorLeftSpeed > maxPWM) motorLeftSpeed = maxPWM;
-  if (motorRightSpeed > maxPWM) motorRightSpeed = maxPWM;
+  if (motorLeftSpeed > 510) motorLeftSpeed = 510;
+  if (motorRightSpeed > 510) motorRightSpeed = 510;
+  if (motorLeftSpeed < 1) motorLeftSpeed = 1;
+  if (motorRightSpeed < 1) motorRightSpeed = 1;
 
   setMotorLeftPwm(motorLeftSpeed);
   setMotorRightPwm(motorRightSpeed);
