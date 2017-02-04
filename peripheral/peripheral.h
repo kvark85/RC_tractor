@@ -15,8 +15,8 @@
 //***************************************************************************//
 //---------------------------     BUTTON START     --------------------------//
 //***************************************************************************//
-#define BUTTON_GPIO_PORT        GPIOD
-#define BUTTON_GPIO_PINS        GPIO_PIN_1
+#define BUTTON_GPIO_PORT        GPIOB
+#define BUTTON_GPIO_PINS        GPIO_PIN_5
 
 //***************************************************************************//
 //-----------------------------     LED START     ---------------------------//
@@ -28,7 +28,8 @@
 //***************************************************************************//
 //---------------------     defines for motor START     ---------------------//
 //***************************************************************************//
-#define MAX_PWM                 533
+#define PERIOD_PWM              533
+#define MAX_PWM                 50
 #define RIGHT_DIRECTION         GPIO_PIN_4
 #define LEFT_DIRECTION          GPIO_PIN_5
 #define DIRECTION_PORT          GPIOD
@@ -38,8 +39,8 @@
 #define motorRightForward()     GPIO_WriteHigh(DIRECTION_PORT, (GPIO_Pin_TypeDef)RIGHT_DIRECTION)
 #define motorRightBack()        GPIO_WriteLow(DIRECTION_PORT, (GPIO_Pin_TypeDef)RIGHT_DIRECTION)
 
-#define setMotorLeftPwm( x )    TIM2_SetCompare2(MAX_PWM - (int32_t)x)
-#define setMotorRightPwm( x )   TIM2_SetCompare3(MAX_PWM - (int32_t)x)
+#define setMotorLeftPwm( x )    TIM2_SetCompare2(PERIOD_PWM - (int32_t)x)
+#define setMotorRightPwm( x )   TIM2_SetCompare3(PERIOD_PWM - (int32_t)x)
 
 //***************************************************************************//
 //---------------------     defines for RFM70 START     ---------------------//
@@ -57,6 +58,8 @@
 //-------------------------     function defines     ------------------------//
 //***************************************************************************//
 void LED_Init(void);
+void buttonInit(void);
+bool isButtonPressed(void);
 void ADC_Init(void);
 uint16_t getADC3(void);
 uint16_t getADC4(void);
@@ -65,7 +68,6 @@ void waitMs(uint32_t);
 void SPI_Init_RFM70(void);
 void TIM2_PWM_Init(void);
 void L293D_GpioInit(void);
-void motorHeandler1(uint8_t motor1, uint8_t motor2);
-void motorHeandler2(uint8_t motor1, uint8_t motor2);
+void motorHeandler(uint8_t, uint8_t, uint8_t);
 
 #endif

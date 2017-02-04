@@ -7,12 +7,37 @@
 #include "peripheral.h"
 
 uint32_t msVar = 0;
+double a = 2 * MAX_PWM;
+double b = 255 * MAX_PWM;
 
 //******************************************************************************
 //-------------------------     led initialization     -------------------------
 //******************************************************************************
 void LED_Init(void) {
-    GPIO_Init(LED_GPIO_PORT, (GPIO_Pin_TypeDef)LED_GPIO_PINS, GPIO_MODE_OUT_PP_LOW_FAST);
+  GPIO_Init(LED_GPIO_PORT, (GPIO_Pin_TypeDef)LED_GPIO_PINS, GPIO_MODE_OUT_PP_LOW_FAST);
+}
+
+//******************************************************************************
+//------------------------     button initialization     -----------------------
+//******************************************************************************
+void buttonInit(void) {
+  GPIO_Init(BUTTON_GPIO_PORT, (GPIO_Pin_TypeDef)BUTTON_GPIO_PINS, GPIO_MODE_IN_FL_NO_IT);
+}
+
+//******************************************************************************
+//------------------------     press button handler     ------------------------
+//******************************************************************************
+bool isButtonPressed(void) {
+  if(GPIO_ReadInputPin(BUTTON_GPIO_PORT, BUTTON_GPIO_PINS) == RESET) {
+    for(uint8_t i = 0; i < 250; i++) {
+      if(GPIO_ReadInputPin(BUTTON_GPIO_PORT, BUTTON_GPIO_PINS) == SET) {
+      return false;
+      }
+    }
+    while (GPIO_ReadInputPin(BUTTON_GPIO_PORT, BUTTON_GPIO_PINS) == RESET);
+    return true;
+  }
+  return false;
 }
 
 //******************************************************************************
@@ -131,14 +156,14 @@ void SPI_Init_RFM70(void) {
 void TIM2_PWM_Init(void){
     TIM2_DeInit();
     /* Time base configuration */
-    TIM2_TimeBaseInit(TIM2_PRESCALER_1, MAX_PWM);
+    TIM2_TimeBaseInit(TIM2_PRESCALER_1, PERIOD_PWM);
 
       /* PWM1 Mode configuration: Channel2 */ 
-    TIM2_OC2Init(TIM2_OCMODE_PWM1, TIM2_OUTPUTSTATE_ENABLE, MAX_PWM, TIM2_OCPOLARITY_HIGH);
+    TIM2_OC2Init(TIM2_OCMODE_PWM1, TIM2_OUTPUTSTATE_ENABLE, PERIOD_PWM, TIM2_OCPOLARITY_HIGH);
     TIM2_OC2PreloadConfig(ENABLE);
 
     /* PWM1 Mode configuration: Channel3 */  
-    TIM2_OC3Init(TIM2_OCMODE_PWM1, TIM2_OUTPUTSTATE_ENABLE, MAX_PWM, TIM2_OCPOLARITY_HIGH);
+    TIM2_OC3Init(TIM2_OCMODE_PWM1, TIM2_OUTPUTSTATE_ENABLE, PERIOD_PWM, TIM2_OCPOLARITY_HIGH);
     TIM2_OC3PreloadConfig(ENABLE);
     //TIM2_CCxCmd(TIM2_CHANNEL_3, ENABLE);
     
@@ -157,66 +182,54 @@ void L293D_GpioInit(void) {
 }
 
 //******************************************************************************
-// --------------------------     motor control 1     --------------------------
+// ---------------------------     motor control     ---------------------------
 //******************************************************************************
-void motorHeandler1(uint8_t motor1, uint8_t motor2) {
-  if (motor1 > MIDDLEADC) {
-    motor1 = motor1 - MIDDLEADC;
-    motorLeftForward();
+void motorHeandler(uint8_t adcSpeed, uint8_t adcDirection, uint8_t mode) {
+  //adcSpeed = 250;
+  //adcDirection = 127;
+  //mode = 0;
+  float centerSpeed, direction;
+  float motorLeftSpeed, motorRightSpeed;
+  //float transformationValue = 6;
+  float transformationValue = 10.66;
+  uint32_t maxValuePwm = (uint32_t)(MAX_PWM * transformationValue);
+
+  centerSpeed = ((a * (float)adcSpeed) - b) / 255; // cpnvertion to (-MAX_PWM)-MAX_PWM ((-50)-50)
+  direction = ((a * (float)adcDirection) - b) / 255;
+
+  centerSpeed *= transformationValue;
+
+  if(mode == 1) {
+    direction *= transformationValue;
+   
+    motorLeftSpeed = centerSpeed + direction;
+    motorRightSpeed = centerSpeed - direction;
   } else {
-    motor1 = MIDDLEADC - motor1;
-    motorLeftBack();
+    motorLeftSpeed = centerSpeed;
+    motorRightSpeed = centerSpeed;
+    
+    if (direction > 0) {
+      motorRightSpeed *= (MAX_PWM - direction) * 0.02;
+    } else {
+      motorLeftSpeed *= (MAX_PWM - ((-1) * direction)) * 0.02;
+    }
   }
-  
-  if (motor2 > MIDDLEADC) {
-    motor2 = motor2 - MIDDLEADC;
-    motorRightForward();
-  } else {
-    motor2 = MIDDLEADC - motor2;
-    motorRightBack();
-  }
-
-  TIM2_SetCompare2(MAX_PWM - ((motor1) * 4));
-  TIM2_SetCompare3(MAX_PWM - ((motor2) * 4));
-}
-
-//******************************************************************************
-// --------------------------     motor control 2     --------------------------
-//******************************************************************************
-void motorHeandler2(uint8_t adcSpeed, uint8_t adcDirection) {
-  //float centerSpeed, direction;
-  //float motorLeftSpeed, motorRightSpeed;
-
-  //centerSpeed = ((1020 * (float)adcSpeed) - 130050)/ 255;
-  //direction = ((1020 * (float)adcDirection) - 130050)/ 255;
-  
-  int32_t centerSpeed, direction;
-  int32_t motorLeftSpeed, motorRightSpeed;
-
-  centerSpeed = (adcSpeed * 4) - 510;
-  direction = (adcDirection * 4) - 510;
-
-  motorLeftSpeed = centerSpeed + direction;
-  motorRightSpeed = centerSpeed - direction;
-
+    
   if(motorLeftSpeed > 0) {
     motorLeftForward();
   } else {
     motorLeftBack();
     motorLeftSpeed *= -1;
   }
-
-  if(motorRightSpeed > 0) {
+   if(motorRightSpeed > 0) {
     motorRightForward();
   } else {
     motorRightBack();
     motorRightSpeed *= -1;
   }
   
-  if (motorLeftSpeed > 510) motorLeftSpeed = 510;
-  if (motorRightSpeed > 510) motorRightSpeed = 510;
-  if (motorLeftSpeed < 1) motorLeftSpeed = 1;
-  if (motorRightSpeed < 1) motorRightSpeed = 1;
+  if (motorLeftSpeed > maxValuePwm) motorLeftSpeed = maxValuePwm;
+  if (motorRightSpeed > maxValuePwm) motorRightSpeed = maxValuePwm;
 
   setMotorLeftPwm(motorLeftSpeed);
   setMotorRightPwm(motorRightSpeed);
