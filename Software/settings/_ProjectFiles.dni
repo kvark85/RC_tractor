@@ -73,6 +73,10 @@ ShowTimeSum=1
 [TermIOLog]
 LoggingEnabled=_ 0
 LogFile=_ ""
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
 [Breakpoints]
 Bp0=_ "STD_CODE" "{$PROJ_DIR$\STM8S_StdPeriph_Driver\inc\stm8s_tim4.h}.104.1" 0 0 0 0 "" 0 ""
 Bp1=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.98.1" 0 0 0 0 "" 0 ""
@@ -83,10 +87,6 @@ Bp5=_ "STD_CODE" "{$PROJ_DIR$\peripheral\peripheral.c}.235.3" 1 0 0 0 "" 0 ""
 Bp6=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.74.7" 1 0 0 0 "" 0 ""
 Bp7=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.83.11" 1 0 0 0 "" 0 ""
 Count=8
-[Log file]
-LoggingEnabled=_ 0
-LogFile=_ ""
-Category=_ 0
 [Aliases]
 A0=_ "D:\RC_tractor\STM8S_StdPeriph_Driver\src\stm8s_adc1.c" ""
 A1=_ "D:\RC_tractor\STM8S_StdPeriph_Driver\src\stm8s_clk.c" ""
