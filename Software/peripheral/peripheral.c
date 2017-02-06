@@ -229,5 +229,5 @@ void motorHeandler(uint8_t adcSpeed, uint8_t adcDirection, uint8_t mode) {
   if (motorRightSpeed > maxValuePwm) motorRightSpeed = maxValuePwm;
 
   setMotorLeftPwm(motorLeftSpeed);
-  setMotorRightPwm(motorRightSpeed);//*/
+  setMotorRightPwm(motorRightSpeed);
 }
