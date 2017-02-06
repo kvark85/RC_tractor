@@ -5,7 +5,7 @@
 #include "rfm70-config.h"
 
 extern int32_t msVar; // ms counter
-int8_t stopTimer = 0;
+uint8_t stopTimer = 0;
 bool isTransmit = false;
 uint8_t rfm70buf[3];
 uint8_t statusReg;
