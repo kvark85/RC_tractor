@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-1818002864
+Checksum=-2057650300
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -58,35 +58,38 @@ Fmt2={W}0:a2	3	0
 Fmt3={W}0:a3	3	0
 Fmt4={W}0:controlMode	3	0
 Fmt5={W}0:direction	3	0
-Fmt6={W}0:motor1	3	0
-Fmt7={W}0:motor2	3	0
-Fmt8={W}0:speed	3	0
-Fmt9={W}0:speed2	3	0
-Fmt10={W}0:statusReg	1	0
-Fmt11={W}0:tempDebug	1	0
-Fmt12={W}0:value	1	0
+Fmt6={W}0:fifoSstatusReg	1	0
+Fmt7={W}0:motor1	3	0
+Fmt8={W}0:motor2	3	0
+Fmt9={W}0:speed	3	0
+Fmt10={W}0:speed2	3	0
+Fmt11={W}0:statusReg	1	0
+Fmt12={W}0:tempDebug	1	0
+Fmt13={W}0:value	1	0
 [DataSample]
 LogEnabled=0
 GraphEnabled=0
 ShowTimeLog=1
 ShowTimeSum=1
-[TermIOLog]
-LoggingEnabled=_ 0
-LogFile=_ ""
+[Breakpoints]
+Bp0=_ "STD_CODE" "{$PROJ_DIR$\STM8S_StdPeriph_Driver\inc\stm8s_tim4.h}.104.1" 0 0 0 0 "" 0 ""
+Bp1=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.90.1" 0 0 0 0 "" 0 ""
+Bp2=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.90.1" 0 0 0 0 "" 0 ""
+Bp3=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.90.1" 0 0 0 0 "" 0 ""
+Bp4=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.90.1" 0 0 0 0 "" 0 ""
+Bp5=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.78.11" 1 0 0 0 "" 0 ""
+Bp6=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.70.9" 1 0 0 0 "" 0 ""
+Bp7=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.75.11" 1 0 0 0 "" 0 ""
+Bp8=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.78.11" 1 0 0 0 "" 0 ""
+Bp9=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.78.11" 1 0 0 0 "" 0 ""
+Count=10
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
 Category=_ 0
-[Breakpoints]
-Bp0=_ "STD_CODE" "{$PROJ_DIR$\STM8S_StdPeriph_Driver\inc\stm8s_tim4.h}.104.1" 0 0 0 0 "" 0 ""
-Bp1=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.98.1" 0 0 0 0 "" 0 ""
-Bp2=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.98.1" 0 0 0 0 "" 0 ""
-Bp3=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.98.1" 0 0 0 0 "" 0 ""
-Bp4=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.98.1" 0 0 0 0 "" 0 ""
-Bp5=_ "STD_CODE" "{$PROJ_DIR$\peripheral\peripheral.c}.235.3" 1 0 0 0 "" 0 ""
-Bp6=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.74.7" 1 0 0 0 "" 0 ""
-Bp7=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.83.11" 1 0 0 0 "" 0 ""
-Count=8
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
 [Aliases]
 A0=_ "D:\RC_tractor\STM8S_StdPeriph_Driver\src\stm8s_adc1.c" ""
 A1=_ "D:\RC_tractor\STM8S_StdPeriph_Driver\src\stm8s_clk.c" ""
