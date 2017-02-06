@@ -185,9 +185,6 @@ void L293D_GpioInit(void) {
 // ---------------------------     motor control     ---------------------------
 //******************************************************************************
 void motorHeandler(uint8_t adcSpeed, uint8_t adcDirection, uint8_t mode) {
-  //adcSpeed = 250;
-  //adcDirection = 127;
-  //mode = 0;
   float centerSpeed, direction;
   float motorLeftSpeed, motorRightSpeed;
   //float transformationValue = 6;
@@ -232,5 +229,5 @@ void motorHeandler(uint8_t adcSpeed, uint8_t adcDirection, uint8_t mode) {
   if (motorRightSpeed > maxValuePwm) motorRightSpeed = maxValuePwm;
 
   setMotorLeftPwm(motorLeftSpeed);
-  setMotorRightPwm(motorRightSpeed);
+  setMotorRightPwm(motorRightSpeed);//*/
 }

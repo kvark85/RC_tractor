@@ -5,25 +5,19 @@
 #include "rfm70-config.h"
 
 extern int32_t msVar; // ms counter
-int32_t stopTimer = 0;
+int8_t stopTimer = 0;
 bool isTransmit = false;
-uint8_t rfm70buf[32];
+uint8_t rfm70buf[3];
 uint8_t statusReg;
 uint8_t controlMode = 1;
 
-uint32_t clockFreq; // for determinating clock frequency
+//uint32_t clockFreq; // for determinating clock frequency
 
 int main()
 {
-  //CLK_SYSCLKConfig(CLK_PRESCALER_HSIDIV2); // select Clock = 8 MHz
   CLK_SYSCLKConfig(CLK_PRESCALER_HSIDIV1); // select Clock = 16 MHz
   CLK_HSICmd(ENABLE);
   //clockFreq = CLK_GetClockFreq(); // getting clock frequency
-
-  if(!isTransmit) {
-    L293D_GpioInit();
-    TIM2_PWM_Init();
-  }
   
   asm("rim"); 
   TIM4_Config(); // this timer for ms delay
@@ -39,18 +33,10 @@ int main()
     buttonInit();
     ADC_Init();
     rfm70_mode_transmit();
-  } else {
-    rfm70_mode_receive();
-  }
-  
-  if(isTransmit) {
+    
     while(1) {
-      if(isButtonPressed()) {
-        if (controlMode == 0) {
-          controlMode = 1;
-        } else {
-          controlMode = 0;
-        }
+      if(isButtonPressed()) {  
+        controlMode ^= 1;
       }
 
       INVERT_LED();
@@ -69,6 +55,10 @@ int main()
       waitMs(5);
     }
   } else {
+    L293D_GpioInit();
+    TIM2_PWM_Init();
+    rfm70_mode_receive();
+
     while(1) {
       //rfm70_receive( &pipe, rfm70buf, &length );
       if(!GPIO_ReadInputPin(PORT_SPI_IRQ_CE, PIN_IRQ)) {
@@ -79,7 +69,7 @@ int main()
       } else {
         stopTimer++;
         waitMs(1);
-        if (stopTimer > 1000) {
+        if (stopTimer > 250) {
           rfm70_register_write( RFM70_REG_STATUS ,  0x42); // reset interrupt pin
           stopTimer = 0; // обнуляем счетчик остановки
           rfm70buf[0] = MIDDLEADC;
