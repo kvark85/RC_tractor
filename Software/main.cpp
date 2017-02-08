@@ -4,20 +4,12 @@
 #include "rfm70.h"
 #include "rfm70-config.h"
 
-extern int32_t msVar; // ms counter
-uint8_t stopTimer = 0;
-bool isTransmit = false;
-uint8_t rfm70buf[3];
-uint8_t statusReg;
-uint8_t controlMode = 1;
-
-//uint32_t clockFreq; // for determinating clock frequency
-
 int main()
 {
+  uint8_t rfm70buf[3];
+
   CLK_SYSCLKConfig(CLK_PRESCALER_HSIDIV1); // select Clock = 16 MHz
   CLK_HSICmd(ENABLE);
-  //clockFreq = CLK_GetClockFreq(); // getting clock frequency
   
   asm("rim"); 
   TIM4_Config(); // this timer for ms delay
@@ -28,8 +20,10 @@ int main()
   rfm70_channel(0);
   rfm70_retransmit_delay_attempts(0,15);
   
-  if(isTransmit) {
-    LED_Init();
+  if(IS_TREASMIT) {
+    uint8_t statusReg;
+    uint8_t controlMode = 1;
+
     buttonInit();
     ADC_Init();
     rfm70_mode_transmit();
@@ -39,7 +33,6 @@ int main()
         controlMode ^= 1;
       }
 
-      INVERT_LED();
       rfm70buf[0] = getADC3()/4; // speed;
       rfm70buf[1] = getADC4()/4; // direction;
       rfm70buf[2] = controlMode;
@@ -52,9 +45,11 @@ int main()
           break;
         } 
       }   
-      waitMs(5);
+      waitMs(10);
     }
   } else {
+    uint8_t stopTimer = 0;
+
     L293D_GpioInit();
     TIM2_PWM_Init();
     rfm70_mode_receive();
@@ -70,12 +65,11 @@ int main()
         stopTimer++;
         waitMs(1);
         if (stopTimer > 250) {
-          uint8_t readBuf[32];
-          rfm70_buffer_read(RFM70_CMD_R_RX_PAYLOAD, readBuf, 32);
+          for(uint8_t i = 0; i < 32; i++) {
+            rfm70_buffer_read(RFM70_CMD_R_RX_PAYLOAD, rfm70buf, 1);
+          }
           rfm70_register_write(RFM70_REG_STATUS,  0x42); // 0b0100 0010 reset interrupt pin
           stopTimer = 0; // обнуляем счетчик остановки
-          rfm70buf[0] = MIDDLEADC;
-          rfm70buf[1] = MIDDLEADC;
           setMotorLeftPwm(0);
           setMotorRightPwm(0) ;
         }

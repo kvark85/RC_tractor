@@ -9,6 +9,7 @@
 
 #include "stm8s.h"   
 
+#define IS_TREASMIT             true
 #define TIM4_PERIOD             124
 #define MIDDLEADC               127
 
@@ -17,13 +18,6 @@
 //***************************************************************************//
 #define BUTTON_GPIO_PORT        GPIOB
 #define BUTTON_GPIO_PINS        GPIO_PIN_5
-
-//***************************************************************************//
-//-----------------------------     LED START     ---------------------------//
-//***************************************************************************//
-#define LED_GPIO_PORT           GPIOD
-#define LED_GPIO_PINS           GPIO_PIN_4
-#define INVERT_LED()            GPIO_WriteReverse(LED_GPIO_PORT, (GPIO_Pin_TypeDef)LED_GPIO_PINS)
 
 //***************************************************************************//
 //---------------------     defines for motor START     ---------------------//
@@ -57,14 +51,13 @@
 //***************************************************************************//
 //-------------------------     function defines     ------------------------//
 //***************************************************************************//
-void LED_Init(void);
 void buttonInit(void);
 bool isButtonPressed(void);
 void ADC_Init(void);
 uint16_t getADC3(void);
 uint16_t getADC4(void);
 void TIM4_Config(void);
-void waitMs(uint32_t);
+void waitMs(uint8_t);
 void SPI_Init_RFM70(void);
 void TIM2_PWM_Init(void);
 void L293D_GpioInit(void);
