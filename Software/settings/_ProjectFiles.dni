@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=-356307791
+Checksum=49958294
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -71,6 +71,13 @@ LogEnabled=0
 GraphEnabled=0
 ShowTimeLog=1
 ShowTimeSum=1
+[Log file]
+LoggingEnabled=_ 0
+LogFile=_ ""
+Category=_ 0
+[TermIOLog]
+LoggingEnabled=_ 0
+LogFile=_ ""
 [Breakpoints]
 Bp0=_ "STD_CODE" "{$PROJ_DIR$\STM8S_StdPeriph_Driver\inc\stm8s_tim4.h}.104.1" 0 0 0 0 "" 0 ""
 Bp1=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.83.1" 0 0 0 0 "" 0 ""
@@ -83,13 +90,6 @@ Bp7=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.82.42" 1 0 0 0 "" 0 ""
 Bp8=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.82.42" 1 0 0 0 "" 0 ""
 Bp9=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.82.42" 1 0 0 0 "" 0 ""
 Count=10
-[Log file]
-LoggingEnabled=_ 0
-LogFile=_ ""
-Category=_ 0
-[TermIOLog]
-LoggingEnabled=_ 0
-LogFile=_ ""
 [Aliases]
 A0=_ "D:\RC_tractor\STM8S_StdPeriph_Driver\src\stm8s_adc1.c" ""
 A1=_ "D:\RC_tractor\STM8S_StdPeriph_Driver\src\stm8s_clk.c" ""

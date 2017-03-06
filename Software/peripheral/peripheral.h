@@ -9,7 +9,7 @@
 
 #include "stm8s.h"   
 
-#define IS_TREASMIT             true
+#define IS_TREASMIT             false
 #define TIM4_PERIOD             124
 #define MIDDLEADC               127
 
@@ -23,7 +23,7 @@
 //---------------------     defines for motor START     ---------------------//
 //***************************************************************************//
 #define PERIOD_PWM              533
-#define MAX_PWM                 50
+#define MAX_PWM                 127
 #define RIGHT_DIRECTION         GPIO_PIN_4
 #define LEFT_DIRECTION          GPIO_PIN_5
 #define DIRECTION_PORT          GPIOD

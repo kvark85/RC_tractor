@@ -9,6 +9,7 @@
 uint8_t msVar = 0;
 double a = 2 * MAX_PWM;
 double b = 255 * MAX_PWM;
+float transformationValue = PERIOD_PWM/MAX_PWM;
 
 //******************************************************************************
 //------------------------     button initialization     -----------------------
@@ -180,8 +181,6 @@ void L293D_GpioInit(void) {
 void motorHeandler(uint8_t adcSpeed, uint8_t adcDirection, uint8_t mode) {
   float centerSpeed, direction;
   float motorLeftSpeed, motorRightSpeed;
-  //float transformationValue = 6;
-  float transformationValue = 10.66;
   uint32_t maxValuePwm = (uint32_t)(MAX_PWM * transformationValue);
 
   centerSpeed = ((a * (float)adcSpeed) - b) / 255; // cpnvertion to (-MAX_PWM)-MAX_PWM ((-50)-50)
