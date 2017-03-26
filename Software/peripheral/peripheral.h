@@ -58,7 +58,7 @@ uint16_t getADC3(void);
 uint16_t getADC4(void);
 void TIM4_Config(void);
 void waitMs(uint8_t);
-void SPI_Init_RFM70(void);
+void SPI_Init_RFM73(void);
 void TIM2_PWM_Init(void);
 void L293D_GpioInit(void);
 void motorHeandler(uint8_t, uint8_t, uint8_t);

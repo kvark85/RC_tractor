@@ -125,7 +125,7 @@ void waitMs(uint8_t val) {
 //******************************************************************************
 //---------------------     SPI and RFM70 initialization    --------------------
 //******************************************************************************
-void SPI_Init_RFM70(void) {
+void SPI_Init_RFM73(void) {
     GPIO_Init (PORT_NSS,        PIN_NSS,  GPIO_MODE_OUT_PP_HIGH_FAST);          // конфигурируем CS (SS)
     GPIO_Init (PORT_SPI_IRQ_CE, PIN_CE,   GPIO_MODE_OUT_PP_HIGH_FAST);          // конфигурируем CE
     GPIO_Init (PORT_SPI_IRQ_CE, PIN_SCK,  GPIO_MODE_OUT_PP_HIGH_FAST);          // конфигурируем CLK

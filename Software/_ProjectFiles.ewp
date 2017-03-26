@@ -252,7 +252,7 @@
           <state>$PROJ_DIR$\</state>
           <state>$PROJ_DIR$\STM8S_StdPeriph_Driver\inc\</state>
           <state>$PROJ_DIR$\peripheral</state>
-          <state>$PROJ_DIR$\RFM70</state>
+          <state>$PROJ_DIR$\RFM73</state>
         </option>
         <option>
           <name>CCStdIncCheck</name>
@@ -1582,15 +1582,15 @@
     </file>
   </group>
   <group>
-    <name>RFM70</name>
+    <name>RFM73</name>
     <file>
-      <name>$PROJ_DIR$\RFM70\rfm70-config.h</name>
+      <name>$PROJ_DIR$\RFM73\rfm73-config.h</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\RFM70\rfm70.c</name>
+      <name>$PROJ_DIR$\RFM73\rfm73.c</name>
     </file>
     <file>
-      <name>$PROJ_DIR$\RFM70\rfm70.h</name>
+      <name>$PROJ_DIR$\RFM73\rfm73.h</name>
     </file>
   </group>
   <group>
