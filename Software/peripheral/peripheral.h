@@ -57,6 +57,7 @@ void ADC_Init(void);
 uint16_t getADC3(void);
 uint16_t getADC4(void);
 void TIM4_Config(void);
+void waitUs(void);
 void waitMs(uint8_t);
 void SPI_Init_RFM73(void);
 void TIM2_PWM_Init(void);

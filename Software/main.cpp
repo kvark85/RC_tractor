@@ -10,7 +10,7 @@ int main()
 
   CLK_SYSCLKConfig(CLK_PRESCALER_HSIDIV1); // select Clock = 16 MHz
   CLK_HSICmd(ENABLE);
-  
+
   asm("rim"); 
   TIM4_Config(); // this timer for ms delay
 
@@ -42,7 +42,7 @@ int main()
         if (statusReg & 0x30) { // 0b0011 0000
           rfm73_register_write( RFM73_REG_STATUS ,statusReg );
           break;
-        } 
+        }
       }   
       waitMs(10);
     }

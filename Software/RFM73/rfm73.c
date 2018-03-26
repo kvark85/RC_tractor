@@ -373,10 +373,21 @@ const unsigned char Bank0_Reg[ BANK0_ENTRIES ][ 2 ]={
 const unsigned char RX0_Address[]={ 0x34, 0x43, 0x10, 0x10, 0x01 };
 
 unsigned char rfm73_SPI_RW( unsigned char value ){
-   SPI_SendData(value);
-   while (SPI_GetFlagStatus(SPI_FLAG_TXE) == RESET);
-   while (SPI_GetFlagStatus(SPI_FLAG_RXNE) == RESET);
-   return SPI_ReceiveData();                                                      // Возвратить принятый байт
+   unsigned char i;
+   for( i =0 ; i < 8; i++ ){
+      RFM73_WAIT_US( 1 );
+      RFM73_MOSI( value & 0x80  );
+      value = (value << 1);    // shift next bit into MSB..
+
+      RFM73_WAIT_US( 1 );
+      RFM73_SCK( 1 );
+      value |= RFM73_MISO;     // capture current MISO bit
+
+      RFM73_WAIT_US( 1 );
+      RFM73_SCK( 0 );
+      RFM73_WAIT_US( 1 );
+  }
+  return value;
 }
 
 void rfm73_register_write( unsigned char reg, unsigned char value ){
@@ -386,8 +397,6 @@ void rfm73_register_write( unsigned char reg, unsigned char value ){
    RFM73_CSN( 0 );                // CSN low, init SPI transaction
    (void)rfm73_SPI_RW( reg );    // select register
    (void)rfm73_SPI_RW( value );  // ..and write value to it..
-   while (SPI_GetFlagStatus(SPI_FLAG_TXE) == RESET);
-   while (SPI_GetFlagStatus(SPI_FLAG_BSY) == SET);
    RFM73_CSN( 1 );                // CSN high again
 }
 
@@ -774,6 +783,11 @@ unsigned char rfm73_receive(
     
 void rfm73_init( void ){
    unsigned char i;
+
+   RFM73_CE( 0 ); // port C pin 3
+   RFM73_CSN( 1 ); // port A pin 3
+   RFM73_SCK( 0 ); // port C pin 5
+   RFM73_MOSI( 0 ); // port C mosi pin6
 
    // delay at least 50ms.
    // the example code says so, but why??

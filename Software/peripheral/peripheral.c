@@ -115,6 +115,11 @@ void TIM4_Config(void)
 }
 
 //******************************************************************************
+//------------------------------     us delay     ------------------------------
+//******************************************************************************
+void waitUs(void) {}
+
+//******************************************************************************
 //------------------------------     ms delay     ------------------------------
 //******************************************************************************
 void waitMs(uint8_t val) {
@@ -132,16 +137,6 @@ void SPI_Init_RFM73(void) {
     GPIO_Init (PORT_SPI_IRQ_CE, PIN_MOSI, GPIO_MODE_OUT_PP_HIGH_FAST);          // конфигурируем MOSI
     GPIO_Init (PORT_SPI_IRQ_CE, PIN_MISO, GPIO_MODE_IN_FL_NO_IT);               // конфигурируем MISO
     GPIO_Init (PORT_SPI_IRQ_CE, PIN_IRQ, GPIO_MODE_IN_FL_NO_IT);                // вывод прерывания радиомодуля
-   
-
-    GPIO_WriteHigh(PORT_SPI_IRQ_CE, PIN_CE);
-    GPIO_WriteHigh(PORT_SPI_IRQ_CE, PIN_NSS);   
-  
-    SPI_DeInit();
-    SPI_Init(SPI_FIRSTBIT_MSB, SPI_BAUDRATEPRESCALER_2, SPI_MODE_MASTER, 
-            SPI_CLOCKPOLARITY_LOW, SPI_CLOCKPHASE_1EDGE, 
-            SPI_DATADIRECTION_2LINES_FULLDUPLEX, SPI_NSS_SOFT, 0x07);
-    SPI_Cmd(ENABLE);
 }
 
 //******************************************************************************

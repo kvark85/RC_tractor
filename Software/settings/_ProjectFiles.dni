@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=1199457203
+Checksum=-2042944908
 [CallStack]
 ShowArgs=0
 [Disassembly]
@@ -56,16 +56,18 @@ Fmt0={W}0:a	3	0
 Fmt1={W}0:a1	3	0
 Fmt2={W}0:a2	3	0
 Fmt3={W}0:a3	3	0
-Fmt4={W}0:controlMode	3	0
-Fmt5={W}0:direction	3	0
-Fmt6={W}0:fifoSstatusReg	1	0
-Fmt7={W}0:motor1	3	0
-Fmt8={W}0:motor2	3	0
-Fmt9={W}0:speed	3	0
-Fmt10={W}0:speed2	3	0
-Fmt11={W}0:statusReg	1	0
-Fmt12={W}0:tempDebug	1	0
-Fmt13={W}0:value	1	0
+Fmt4={W}0:aaa	1	0
+Fmt5={W}0:controlMode	3	0
+Fmt6={W}0:direction	3	0
+Fmt7={W}0:fifoSstatusReg	1	0
+Fmt8={W}0:motor1	3	0
+Fmt9={W}0:motor2	3	0
+Fmt10={W}0:reg	1	0
+Fmt11={W}0:speed	3	0
+Fmt12={W}0:speed2	3	0
+Fmt13={W}0:statusReg	1	0
+Fmt14={W}0:tempDebug	1	0
+Fmt15={W}0:value	1	0
 [DataSample]
 LogEnabled=0
 GraphEnabled=0
@@ -80,16 +82,9 @@ LoggingEnabled=_ 0
 LogFile=_ ""
 [Breakpoints]
 Bp0=_ "STD_CODE" "{$PROJ_DIR$\STM8S_StdPeriph_Driver\inc\stm8s_tim4.h}.104.1" 0 0 0 0 "" 0 ""
-Bp1=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.82.1" 0 0 0 0 "" 0 ""
-Bp2=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.82.1" 0 0 0 0 "" 0 ""
-Bp3=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.82.1" 0 0 0 0 "" 0 ""
-Bp4=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.82.1" 0 0 0 0 "" 0 ""
-Bp5=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.81.42" 1 0 0 0 "" 0 ""
-Bp6=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.81.42" 1 0 0 0 "" 0 ""
-Bp7=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.81.42" 1 0 0 0 "" 0 ""
-Bp8=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.81.42" 1 0 0 0 "" 0 ""
-Bp9=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.81.42" 1 0 0 0 "" 0 ""
-Count=10
+Bp1=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.81.42" 0 0 0 0 "" 0 ""
+Bp2=_ "STD_CODE" "{$PROJ_DIR$\main.cpp}.81.42" 1 0 0 0 "" 0 ""
+Count=3
 [Aliases]
 A0=_ "D:\RC_tractor\STM8S_StdPeriph_Driver\src\stm8s_adc1.c" ""
 A1=_ "D:\RC_tractor\STM8S_StdPeriph_Driver\src\stm8s_clk.c" ""

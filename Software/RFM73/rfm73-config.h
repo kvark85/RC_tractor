@@ -20,6 +20,20 @@
 
 #include "peripheral.h"
 
+#define RFM73_SCK( x )   if(x) { \
+                           GPIO_WriteHigh(PORT_SPI_IRQ_CE, PIN_SCK); \
+                         } else { \
+                           GPIO_WriteLow(PORT_SPI_IRQ_CE, PIN_SCK); \
+                         }
+
+#define RFM73_MOSI( x )  if(x) { \
+                           GPIO_WriteHigh(PORT_SPI_IRQ_CE, PIN_MOSI); \
+                         } else { \
+                           GPIO_WriteLow(PORT_SPI_IRQ_CE, PIN_MOSI); \
+                         }
+
+#define RFM73_MISO       GPIO_ReadInputPin(PORT_SPI_IRQ_CE, PIN_MISO) == RESET ? 0 : 1
+
 #define RFM73_CSN( x )   if(x) { \
                            GPIO_WriteHigh(PORT_NSS, PIN_NSS); \
                          } else { \
@@ -32,6 +46,7 @@
                            GPIO_WriteLow(PORT_SPI_IRQ_CE, PIN_CE); \
                          }
 
+#define RFM73_WAIT_US( x ) waitUs()
 #define RFM73_WAIT_MS( x ) waitMs( x )
 
 #include "rfm73.h"
