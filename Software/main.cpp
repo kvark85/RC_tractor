@@ -21,7 +21,7 @@ int main()
   
   if(IS_TREASMIT) {
     uint8_t statusReg;
-    uint8_t controlMode = 1;
+    uint8_t controlMode = 0;
 
     buttonInit();
     ADC_Init();

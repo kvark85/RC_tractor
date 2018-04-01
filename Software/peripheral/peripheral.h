@@ -23,7 +23,7 @@
 //---------------------     defines for motor START     ---------------------//
 //***************************************************************************//
 #define PERIOD_PWM              533
-#define MAX_PWM                 127
+#define MAX_TRANSMITTER_ADC     127
 #define RIGHT_DIRECTION         GPIO_PIN_4
 #define LEFT_DIRECTION          GPIO_PIN_5
 #define DIRECTION_PORT          GPIOD

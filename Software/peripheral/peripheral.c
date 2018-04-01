@@ -7,9 +7,7 @@
 #include "peripheral.h"
 
 uint8_t msVar = 0;
-double a = 2 * MAX_PWM;
-double b = 255 * MAX_PWM;
-float transformationValue = PERIOD_PWM/MAX_PWM;
+float transformationValue = PERIOD_PWM/MAX_TRANSMITTER_ADC;
 
 //******************************************************************************
 //------------------------     button initialization     -----------------------
@@ -170,32 +168,46 @@ void L293D_GpioInit(void) {
   GPIO_Init(DIRECTION_PORT, (GPIO_Pin_TypeDef)LEFT_DIRECTION, GPIO_MODE_OUT_PP_LOW_FAST);
 }
 
-//******************************************************************************
-// ---------------------------     motor control     ---------------------------
-//******************************************************************************
-void motorHeandler(uint8_t adcSpeed, uint8_t adcDirection, uint8_t mode) {
-  float centerSpeed, direction;
-  float motorLeftSpeed, motorRightSpeed;
-  uint32_t maxValuePwm = (uint32_t)(MAX_PWM * transformationValue);
+/**
+ * Motor control.
+ * Speed parameter from transmitter:
+ * 0 => speed = -max;
+ * 127  => speed = 0;
+ * 255 => speed = max.
+ * Direction parameter from remote control:
+ * 0 => direction = left;
+ * 127  => direction = center;
+ * 255 => direction = right.
+ * @param {uint8_t} adcSpeed
+ * @param {uint8_t} adcDirection
+ * @param {uint8_t} mode - Tractor (0), simple car1 (1).
+ */
 
-  centerSpeed = ((a * (float)adcSpeed) - b) / 255; // cpnvertion to (-MAX_PWM)-MAX_PWM ((-50)-50)
-  direction = ((a * (float)adcDirection) - b) / 255;
+void motorHeandler(uint8_t adcSpeed, uint8_t adcDirection, uint8_t mode) {
+  float centerSpeed, direction, motorLeftSpeed, motorRightSpeed;
+
+  centerSpeed = adcSpeed - MAX_TRANSMITTER_ADC;
+  direction = adcDirection - MAX_TRANSMITTER_ADC;
 
   centerSpeed *= transformationValue;
 
-  if(mode == 1) {
+  if(mode == 0) {
+  // tractor
     direction *= transformationValue;
-   
+
     motorLeftSpeed = centerSpeed + direction;
     motorRightSpeed = centerSpeed - direction;
   } else {
+    // simple car
     motorLeftSpeed = centerSpeed;
     motorRightSpeed = centerSpeed;
     
     if (direction > 0) {
-      motorRightSpeed *= (MAX_PWM - direction) * 0.02;
+      float attenuationCoefficient = 1 - (direction / MAX_TRANSMITTER_ADC);
+      motorRightSpeed *= attenuationCoefficient;
     } else {
-      motorLeftSpeed *= (MAX_PWM - ((-1) * direction)) * 0.02;
+      float attenuationCoefficient = 1 + (direction / MAX_TRANSMITTER_ADC);
+      motorLeftSpeed *= attenuationCoefficient;
     }
   }
     
@@ -212,8 +224,8 @@ void motorHeandler(uint8_t adcSpeed, uint8_t adcDirection, uint8_t mode) {
     motorRightSpeed *= -1;
   }
   
-  if (motorLeftSpeed > maxValuePwm) motorLeftSpeed = maxValuePwm;
-  if (motorRightSpeed > maxValuePwm) motorRightSpeed = maxValuePwm;
+  if (motorLeftSpeed > PERIOD_PWM) motorLeftSpeed = PERIOD_PWM;
+  if (motorRightSpeed > PERIOD_PWM) motorRightSpeed = PERIOD_PWM;
 
   setMotorLeftPwm(motorLeftSpeed);
   setMotorRightPwm(motorRightSpeed);
