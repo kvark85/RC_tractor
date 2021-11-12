@@ -7,9 +7,9 @@
 #ifndef _peripheral_
 #define _peripheral_
 
-#include "stm8s.h"   
+#include "stm8s.h"
 
-#define IS_TREASMIT             false
+//#define IS_TRANSMIT
 #define TIM4_PERIOD             124
 #define MIDDLEADC               127
 
@@ -33,8 +33,8 @@
 #define motorRightForward()     GPIO_WriteHigh(DIRECTION_PORT, (GPIO_Pin_TypeDef)RIGHT_DIRECTION)
 #define motorRightBack()        GPIO_WriteLow(DIRECTION_PORT, (GPIO_Pin_TypeDef)RIGHT_DIRECTION)
 
-#define setMotorLeftPwm( x )    TIM2_SetCompare2(PERIOD_PWM - (int32_t)x)
-#define setMotorRightPwm( x )   TIM2_SetCompare3(PERIOD_PWM - (int32_t)x)
+#define setMotorLeftPwm(x)    TIM2_SetCompare2(PERIOD_PWM - (int32_t)x)
+#define setMotorRightPwm(x)   TIM2_SetCompare3(PERIOD_PWM - (int32_t)x)
 
 //***************************************************************************//
 //---------------------     defines for RFM70 START     ---------------------//
@@ -52,16 +52,27 @@
 //-------------------------     function defines     ------------------------//
 //***************************************************************************//
 void buttonInit(void);
+
 bool isButtonPressed(void);
+
 void ADC_Init(void);
+
 uint16_t getADC3(void);
+
 uint16_t getADC4(void);
+
 void TIM4_Config(void);
+
 void waitUs(void);
+
 void waitMs(uint8_t);
+
 void SPI_Init_RFM73(void);
+
 void TIM2_PWM_Init(void);
+
 void L293D_GpioInit(void);
+
 void motorHeandler(uint8_t, uint8_t, uint8_t);
 
 #endif
